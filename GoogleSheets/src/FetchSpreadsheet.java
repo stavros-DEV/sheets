@@ -60,7 +60,7 @@ public class FetchSpreadsheet {
 		}
 	}
 	
-	private static int number = 6;
+	private static int number = 4;
 	public static void main(String[] args) throws BiffException, IOException, WriteException {
 		List<People> people = new ArrayList<People>();
 	   
@@ -193,7 +193,9 @@ public class FetchSpreadsheet {
 	  		
 	  		
 	  		while(Math.abs(thisTeam.level - previousTeam.level) >= 3){
+	  			
 	  			if (thisTeam.level > previousTeam.level) {
+	  				
 	  				People strong = getStrongestName(thisTeam.people);
 	  				People weak = getWeakestName(previousTeam.people);
 	  				
@@ -221,19 +223,96 @@ public class FetchSpreadsheet {
 	  				previousTeam.people.add(strong);
 	  				previousTeam.level = calcNewLevel(previousTeam.people);
 	  				
+	  			} else {
+	  				
+	  				People strong = getStrongestName(previousTeam.people);
+	  				People weak = getWeakestName(thisTeam.people);
+	  				
+	  				/*Remove strong from strong team and add a weak one. */
+	  				Iterator<People> itr = previousTeam.people.iterator();
+	  				while(itr.hasNext()) {
+	  					People p = itr.next();
+	  					if (p.equals(strong)) {
+	  						itr.remove();
+	  					}
+	  				}
+	  				
+	  				previousTeam.people.add(weak);
+	  				previousTeam.level = calcNewLevel(previousTeam.people);
+	  				
+	  				/*Remove weak from weak team and add a strong one. */
+	  				itr = thisTeam.people.iterator();
+	  				while(itr.hasNext()) {
+	  					People p = itr.next();
+	  					if (p.equals(weak)) {
+	  						itr.remove();
+	  					}
+	  				}
+	  				
+	  				thisTeam.people.add(strong);
+	  				thisTeam.level = calcNewLevel(thisTeam.people);
 	  				
 	  			}
-	  			
 	  		}
-	  		
 	  		
 	  		previousTeam = thisTeam;
 	  		
 	  	}
+	  	/***
+	  	it = glTeam.iterator();
+	  	Team weakTeam = new Team();
+	  	Team strongTeam = new Team();
+	  	boolean weakFound = false;
+	  	boolean strongFound = false;
+	  	while(it.hasNext()){
+	  		
+	  		Team thisTeam = it.next();
+	  		if (thisTeam.level - glLevel / teams < -2 ) {
+	  			weakTeam = thisTeam;
+	  			weakFound = true;
+	  		}
+	  		
+	  		if (thisTeam.level - glLevel / teams > 2 ) {
+	  			strongTeam = thisTeam;
+	  			strongFound = true;
+	  		}
+	  		
+	  		if (weakFound && strongFound) {
+	  			People strong = getStrongestName(strongTeam.people);
+  				People weak = getWeakestName(weakTeam.people);
+  				
+  				/*Remove strong from strong team and add a weak one. 
+  				Iterator<People> itr = strongTeam.people.iterator();
+  				while(itr.hasNext()) {
+  					People p = itr.next();
+  					if (p.equals(strong)) {
+  						itr.remove();
+  					}
+  				}
+  				
+  				strongTeam.people.add(weak);
+  				strongTeam.level = calcNewLevel(strongTeam.people);
+  				
+  				/*Remove weak from weak team and add a strong one. 
+  				itr = weakTeam.people.iterator();
+  				while(itr.hasNext()) {
+  					People p = itr.next();
+  					if (p.equals(weak)) {
+  						itr.remove();
+  					}
+  				}
+  				
+  				weakTeam.people.add(strong);
+  				weakTeam.level = calcNewLevel(weakTeam.people);
+	  		}
+	  	}***/
 	  	
 	  	it = glTeam.iterator();
+	  	int num = 0;
 	  	while(it.hasNext()){
+	  		num++;
 	  		Team t = it.next();
+	  		System.out.println("------TEAMSTART-------"+num);
 	  		printLists(t.people);
 	  		System.out.println("Levelof team: " + t.getLevel());
 	  	}
