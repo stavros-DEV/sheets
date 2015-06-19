@@ -8,7 +8,6 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 import jxl.write.Label;
-import jxl.write.WritableCell;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
@@ -53,10 +52,7 @@ public class CalcWorkouts {
 		System.out.println("LOG::INFO - Spreadsheet Info (Rows): " + rows);
 		System.out.println("LOG::INFO - Spreadsheet Info (Columns): " + cols);
 		List<Integer> score = new ArrayList<Integer>();
-
 		
-		/*WritableWorkbook copy = Workbook.createWorkbook(new File("temp.xls"), workbook);
-		WritableSheet sh = copy.createSheet("First Sheet", 0);*/
 		WritableWorkbook wb = Workbook.createWorkbook(new File("assaas.xls"));
 		WritableSheet sh = wb.createSheet("First Sheet", 0);
 		for (int i=1; i<cols; i=i+2){
@@ -71,22 +67,14 @@ public class CalcWorkouts {
 			score = getScoresToSheet(initScore);
 			
 			for (int k=0; k<initScore.size(); k++){
-				//System.out.println(initScore.get(k) + " - " + score.get(k));
-				
+				sh.insertRow(k);
 				Label l = new Label(i+1, k+1, score.get(k).toString());
-				
 				sh.addCell(l);
 				l = new Label(0, 0, "sadsd");
 				sh.addCell(l);
 			}
 			System.out.println("----");
-			
 		}
-		
-		for (int i=1; i<cols; i++){
-			
-		}
-		
 	}
 
 	private static List<Integer> getScoresToSheet(List<Integer> initScore) {
@@ -110,8 +98,6 @@ public class CalcWorkouts {
 				}
 			}
 		}
-		
 		return res;
 	}
-
 }
