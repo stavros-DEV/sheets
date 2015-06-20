@@ -7,9 +7,6 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
-import jxl.write.Label;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 
@@ -51,10 +48,10 @@ public class CalcWorkouts {
 		
 		System.out.println("LOG::INFO - Spreadsheet Info (Rows): " + rows);
 		System.out.println("LOG::INFO - Spreadsheet Info (Columns): " + cols);
+		List<List<Integer>> list = new ArrayList<List<Integer>>();
 		List<Integer> score = new ArrayList<Integer>();
 		
-		WritableWorkbook wb = Workbook.createWorkbook(new File("assaas.xls"));
-		WritableSheet sh = wb.createSheet("First Sheet", 0);
+		
 		for (int i=1; i<cols; i=i+2){
 			
 			List<Integer> initScore = new ArrayList<Integer>();
@@ -66,14 +63,28 @@ public class CalcWorkouts {
 			
 			score = getScoresToSheet(initScore);
 			
+			System.out.println("LOG::INFO - WO"+i);
 			for (int k=0; k<initScore.size(); k++){
-				sh.insertRow(k);
-				Label l = new Label(i+1, k+1, score.get(k).toString());
-				sh.addCell(l);
-				l = new Label(0, 0, "sadsd");
-				sh.addCell(l);
+				Cell cell = sheet.getCell(0, k+1);
+				System.out.println(cell.getContents()+": "+initScore.get(k)+" - "+score.get(k));
 			}
+			list.add(score);
 			System.out.println("----");
+		}
+		
+		List<Integer> rvlist = new ArrayList<Integer>();
+		
+		for (int i=0; i<list.get(0).size();i++){//3 times(teams)
+			
+			int scrPerTeam = 0;
+			for (int j=0;j<list.size();j++){
+				scrPerTeam += list.get(j).get(i);
+			}
+			rvlist.add(scrPerTeam);
+		}
+		for (int k=0; k<rvlist.size(); k++){
+			Cell cl = sheet.getCell(0, k+1);
+			System.out.println("Team "+cl.getContents()+": "+rvlist.get(k));
 		}
 	}
 
@@ -94,7 +105,7 @@ public class CalcWorkouts {
 				}
 				if (tmp == init){
 					res.add(j+1);
-;					break;
+					break;
 				}
 			}
 		}

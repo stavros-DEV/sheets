@@ -40,9 +40,7 @@
 	    int insertRow = 2;
 	    
 	    for (int i = 0 ; i < 4 ; i ++) {
-	      sheet.insertRow(insertRow); //Insert new row at row 2 [Moves the row 2 to next row]
-	      lable = new Label(0, insertRow, "Cell in Row [i=" + i + "]", cellFormat);
-	      sheet.addCell(lable);
+	      System.out.println();
 	    }
 	    
 	    //Writes out the data held in this workbook in Excel format
