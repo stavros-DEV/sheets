@@ -64,7 +64,7 @@ public class FetchSpreadsheet {
 	public static void main(String[] args) throws BiffException, IOException, WriteException {
 		List<People> people = new ArrayList<People>();
 	   
-		Workbook workbook = Workbook.getWorkbook(new File("output.xls"));
+		Workbook workbook = Workbook.getWorkbook(new File("out.xls"));
 		Sheet sheet = workbook.getSheet(0);
 		int cols = sheet.getColumns();
 		int rows = sheet.getRows();
@@ -175,7 +175,7 @@ public class FetchSpreadsheet {
 	  	Iterator<Team> it = glTeam.iterator();
 	  	while(it.hasNext()){
 	  		Team t = it.next();
-	  		printLists(t.people);
+	  		//printLists(t.people);
 	  		System.out.println("Levelof team: " + t.getLevel());
 	  	}
 	  	
@@ -306,7 +306,7 @@ public class FetchSpreadsheet {
   				weakTeam.level = calcNewLevel(weakTeam.people);
 	  		}
 	  	}***/
-	  	
+	  	System.out.println("____________");
 	  	it = glTeam.iterator();
 	  	int num = 0;
 	  	while(it.hasNext()){
@@ -332,7 +332,7 @@ public class FetchSpreadsheet {
 
 
 	private static void printLists (List<People> list) {
-		System.out.println("------TEAMSTART-------");
+		//System.out.println("------TEAMSTART-------");
 		for(int i=0;i<list.size();i++){
 			People p = list.get(i);
 			System.out.println(p.getName() + " - " + p.getBox() + " - " + p.getSex() + " - " + p.getLevel());

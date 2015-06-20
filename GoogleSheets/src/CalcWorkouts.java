@@ -52,7 +52,7 @@ public class CalcWorkouts {
 		List<Integer> score = new ArrayList<Integer>();
 		
 		
-		for (int i=1; i<cols; i=i+2){
+		for (int i=1; i<cols; i++){
 			
 			List<Integer> initScore = new ArrayList<Integer>();
 			for (int j=1; j<rows; j++){
@@ -61,9 +61,9 @@ public class CalcWorkouts {
 				initScore.add(Integer.parseInt(cell.getContents()));
 			}
 			
-			score = getScoresToSheet(initScore);
-			
-			System.out.println("LOG::INFO - WO"+i);
+			score = getScoresToSheet(initScore, i);
+			Cell cl = sheet.getCell(i, 0);
+			System.out.println("LOG::INFO - Workout: "+cl.getContents());
 			for (int k=0; k<initScore.size(); k++){
 				Cell cell = sheet.getCell(0, k+1);
 				System.out.println(cell.getContents()+": "+initScore.get(k)+" - "+score.get(k));
@@ -88,7 +88,7 @@ public class CalcWorkouts {
 		}
 	}
 
-	private static List<Integer> getScoresToSheet(List<Integer> initScore) {
+	private static List<Integer> getScoresToSheet(List<Integer> initScore, int wo) {
 		List<Integer> temp = new ArrayList<Integer>();
 		for (int i=0; i<initScore.size(); i++){
 			temp.add(initScore.get(i));
@@ -104,8 +104,13 @@ public class CalcWorkouts {
 					continue;
 				}
 				if (tmp == init){
-					res.add(j+1);
-					break;
+					if (wo == 7){
+						res.add(-(j+1));
+						break;
+					} else {
+						res.add(j+1);
+						break;
+					}
 				}
 			}
 		}
